@@ -1,24 +1,25 @@
 import json
+from settings import SERVER_BASE_URL
 
 HEADERS = {'Content-Type': 'application/json'}
 
 
-def post_article(flask_test_client, path, noun_usages):
+def post_article(http_client, path, noun_usages):
     payload = dict(
         path=path,
         noun_usages=noun_usages
     )
-    result = flask_test_client.post('/api/v1/articles', data=json.dumps(payload), headers=HEADERS)
+    result = http_client.post('{0}/articles'.format(SERVER_BASE_URL), data=json.dumps(payload), headers=HEADERS)
     return result
 
 
-def patch_article(flask_test_client, id, etag, noun_usages):
+def patch_article(http_client, id, etag, noun_usages):
     payload = dict(
         id=id,
         etag=etag,
         noun_usages=noun_usages
     )
-    result = flask_test_client.patch('/api/v1/articles/{0}'.format(id), data=json.dumps(payload),
+    result = http_client.patch('{0}/articles/{1}'.format(SERVER_BASE_URL, id), data=json.dumps(payload),
                                      headers={'Content-Type': 'application/json', 'If-Match': etag})
     return result
 

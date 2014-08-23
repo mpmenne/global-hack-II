@@ -2,12 +2,6 @@ from nltk.corpus import wordnet
 from nltk import word_tokenize, pos_tag
 
 
-def _read_data_from_file():
-    data = {}
-    for fname in ['0.txt', '2.txt', '3.txt', '4.txt', '9.txt', ]:
-        f = open(fname, 'rb')
-        data[fname] = f.read()
-    return data
 
 
 def find_nouns(blob):
