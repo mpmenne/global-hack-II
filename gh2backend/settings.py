@@ -41,7 +41,7 @@ else:
     MONGO_DBNAME = 'maindb'
 
     # let's not forget the API entry point (not really needed anyway)
-    #SERVER_NAME = '127.0.0.1:5000'
+    SERVER_NAME = '54.200.98.221:5000'
 
 URL_PREFIX = 'api'
 API_VERSION = 'v1'

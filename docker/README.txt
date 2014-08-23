@@ -13,5 +13,6 @@ ssh root@{container_ip}
 # clone down the repository for the backend
 # git clone https://github.com/MoMenne/global-hack-II
 
+# be sure the wsgi file has the correct SERVER_NAME!
 # run the wsgi_app.py in the gh2backend directory
 # python wsgi_app.py
