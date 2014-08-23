@@ -1,3 +1,5 @@
+
+#obsolete
 1. Read through articles and make strings
 2. Create a list of nouns
 3. Create a noun document for each noun (unless its created)
@@ -29,3 +31,13 @@ nodes
 article
     path
     noun_usages (list)
+
+
+1. Create an Article ID with path
+2. Preprocess data to find pruned nouns
+3. Create a noun_usage for each pruned noun
+4. Do a hypo and hyper lookup for each noun to make parents, and children.
+5. Do a hypo on the nouns hypers to find sibling
+6. Do a hyper on its hyper, then a hypo to find uncles
+5. Create a node for each noun
+6. Create a node for each hyper/hypo
