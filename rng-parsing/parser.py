@@ -49,5 +49,10 @@ for text_file_path in text_file_paths:
     core_words = get_core_words(raw_text)
     word_counter = Counter(core_words)
 
-    print (itertools.combinations(word_counter.keys(), 2))[0]
+    word_pairs = list(itertools.combinations(word_counter.keys(), 2))
+    scores = []
+    for word_pair in word_pairs:
+        scores.append((word_pair, word_counter[word_pair[0]] * word_counter[word_pair[1]]))
+        
+    print sorted(scores, key=lambda x: x[1])
     break
