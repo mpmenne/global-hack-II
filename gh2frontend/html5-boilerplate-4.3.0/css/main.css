@@ -98,7 +98,81 @@ textarea {
    ========================================================================== */
 
 
+/* ==========================================================================
+   David
+   ========================================================================== */
 
+body {
+
+ 
+}
+
+/* Masonry window */
+#content {
+    /*width: 980px;*/
+    /*width: 95%;*/
+    width: auto;
+    margin: 0 auto;
+}
+
+
+/* Masonry column widths */
+.item {
+    /* toggle for debugging */
+    background-color: #bde7b8;
+    box-shadow: inset 1px -1px 1px gray, inset -1px 1px 1px gray;
+
+    display: block;
+    float: left;
+    width: 300px;
+    margin: 0 20px 20px 0;
+    -webkit-transition: left .4s ease-in-out, top .4s ease-in-out .4s;
+    -moz-transition: left .4s ease-in-out, top .4s ease-in-out .4s;
+    -ms-transition: left .4s ease-in-out, top .4s ease-in-out .4s;
+    -o-transition: left .4s ease-in-out, top .4s ease-in-out .4s;
+    transition: left .4s ease-in-out, top .4s ease-in-out .4s;
+}
+
+/* Masonry item widths */
+
+.featured {
+    /* toggle for debugging */
+    background-color: #bde7b8;
+    box-shadow: inset 1px -1px 1px gray, inset -1px 1px 1px gray;
+
+    width: 620px;
+    height: 300px;
+}
+
+
+
+/* Titles */
+h1 {
+  font-family: "Times New Roman", Times, serif;
+  font-weight: normal;
+  font-size: 0.9em;
+  text-transform: uppercase;
+  color: #000;
+  letter-spacing: .2em;
+  line-height: 1;
+  text-align: center;
+  margin: 0;
+  display: inline;
+}
+
+header {
+    text-align: center;
+    margin-top: 0.8em;
+}
+
+header:after {
+  content: "";
+  display: block;
+  width: 30px;
+  height: 1px;
+  margin: 0.8em auto;
+  background-color: #111;
+}
 
 
 
