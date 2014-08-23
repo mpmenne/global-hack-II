@@ -109,7 +109,7 @@ connections = {
         },
         'relationship': {
             'type': 'string',
-            'allowed': ['parent, uncle, sibling, child']
+            'allowed': ['parent', 'uncle', 'sibling', 'child']
         },
         'score': {
             'type': 'integer'
