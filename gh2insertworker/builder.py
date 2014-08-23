@@ -1,6 +1,7 @@
 import json
-import requests
-import connections, noun_usages, nodes, transactions, articles
+
+import noun_usages
+import articles
 
 
 def _read_data_from_file():
@@ -24,8 +25,7 @@ def parse_response_body_get_etag(response_body):
     return id, response_body['_etag']
 
 
-def build_data(http_client, article_preprocessed):
-    article_data = json.loads(article_preprocessed)
+def build_data(http_client, article_params):
 
     # create a new article and get its id and etag
     new_article_id, new_article_etag = parse_response_body_get_etag(
@@ -38,12 +38,12 @@ def build_data(http_client, article_preprocessed):
             noun_usages.post_noun_usages(http_client, noun_usage, new_article_id))
         noun_usages_ids.append(add_noun_usage_response)
 
-        #create node for the noun
+        #get the params
+
 
 
     #attach those noun usages to article
     new_article_id, new_article_etag = articles.patch_article(http_client, new_article_id, new_article_etag,
                                                               noun_usages_ids)
-
 
 
