@@ -1,18 +1,28 @@
 import nltk
+from nltk import word_tokenize, pos_tag
 from nltk.stem.snowball import SnowballStemmer
 from nltk.corpus import stopwords
+from nltk.corpus import wordnet
 
 from os import listdir
-from os.path import isfile, join
+from os.path import isfile, join, basename
 
 from collections import Counter
 
 import itertools
 
+import math
+
+import pprint as pp
+import json
+
 def get_core_words( text ):
 
     #TOKENIZATION
-    b = nltk.word_tokenize(text)
+    b = word_tokenize(text)
+
+    #KEEP ONLY NOUNS
+    b = [noun for noun, pos in pos_tag(b) if pos.startswith('N')]
 
     #CONVERT INTO LOWER CASE
     looper = 0
@@ -39,25 +49,85 @@ def pre_process_text ( text ):
     text.decode("utf8")
     return text
 
-root_path = "/home/dummey/global-hack-data/articles"
-text_file_paths = [ join(root_path, f) for f in listdir(root_path) if isfile(join(root_path,f)) ]
-
-aggregate = Counter();
-counter = 0
-
-for text_file_path in text_file_paths:
-    raw_text = pre_process_text(load_text(text_file_path))
-    core_words = get_core_words(raw_text)
+def word_pair_weights( core_words ):
     word_counter = Counter(core_words)
 
     word_pairs = list(itertools.combinations(word_counter.keys(), 2))
     scores = []
     for word_pair in word_pairs:
         scores.append((word_pair, word_counter[word_pair[0]] * word_counter[word_pair[1]]))
-        
-    aggregate.update(Counter(dict(sorted(scores, key=lambda x: x[1]))))
-    counter += 1
-    if counter > 1:
-        break
+    
+    return Counter(dict(sorted(scores, key=lambda x: x[1])))
 
-print aggregate.most_common(10)
+def get_parents( word ):
+    try:
+        word_synnet = wordnet.synset(word + '.n.01')
+        word_parent = list(set([w for s in word_synnet.closure(lambda s:s.hypernyms()) for w in s.lemma_names]))
+        return word_parent
+    except:
+        return []
+
+def get_children( word ):
+    try:
+        word_synnet = wordnet.synset(word + '.n.01')
+        word_children = list(set([w for s in word_synnet.closure(lambda s:s.hyponyms()) for w in s.lemma_names]))
+        return word_children
+    except:
+        return []
+
+def _associate_with_pair_and_weights(base, other, score, decay = 0.5):
+    base_other_pair = zip(base, [other] * len(base))
+    parent_pairs_with_weight = zip(base_other_pair, [int(round(score * decay))] * len(base))
+
+    return Counter(dict(parent_pairs_with_weight))
+
+
+root_path = "/home/dummey/global-hack-data/articles"
+text_file_paths = [ join(root_path, f) for f in listdir(root_path) if isfile(join(root_path,f)) ]
+
+counter = 0
+
+
+for text_file_path in text_file_paths:
+    print text_file_path
+
+    related_aggregate = Counter()
+    parent_aggregate = Counter()
+    children_aggregate = Counter()
+
+    raw_text = pre_process_text(load_text(text_file_path))
+    core_words = get_core_words(raw_text)
+        
+    #related word pairs
+    related_word_pairs = word_pair_weights(core_words)
+    related_aggregate.update(Counter(related_word_pairs))
+
+    for pairs in related_word_pairs:       
+        score = related_word_pairs[pairs]
+
+        parents = get_parents(pairs[0])
+        parent_aggregate.update(_associate_with_pair_and_weights(parents, pairs[1], score))
+
+        parents = get_parents(pairs[1])
+        parent_aggregate.update(_associate_with_pair_and_weights(parents, pairs[0], score))
+
+        children = get_children(pairs[0])
+        children_aggregate.update(_associate_with_pair_and_weights(children, pairs[1], score))
+
+        children = get_children(pairs[1])
+        children_aggregate.update(_associate_with_pair_and_weights(children, pairs[0], score))
+
+    source_name = basename(text_file_path).split('.')[0]
+    with open(join('dump', source_name + '-siblings.json'), 'w') as outfile:
+        json.dump(related_aggregate.most_common(), outfile)
+
+    with open(join('dump', source_name + '-parents.json'), 'w') as outfile:
+        json.dump(parent_aggregate.most_common(), outfile)
+
+    with open(join('dump', source_name + '-children.json'), 'w') as outfile:
+        json.dump(children_aggregate.most_common(), outfile)
+
+
+    counter += 1
+    if counter > 5:
+        break
