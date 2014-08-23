@@ -3,10 +3,10 @@ An EVE settings file that dynamically imports everything from the production
 file. Then, add some of your own settings.
 """
 
-import settings
+import gh2backend.settings
 
 # Copy all production setting like the EVE Domain
-globals().update(settings.__dict__)
+globals().update(gh2backend.settings.__dict__)
 
 # Overwrite some globals now
 

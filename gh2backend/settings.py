@@ -71,12 +71,6 @@ nodes = {
     # Schema definition, based on Cerberus grammar. Check the Cerberus project
     # (https://github.com/nicolaiarocci/cerberus) for details.
     'schema': {
-        'noun_id': {
-            'type': 'objectid',
-            'data_relation': {
-                'resource': 'nouns'
-            }
-        },
         'show': {
             'type': 'boolean'
         },
@@ -88,26 +82,7 @@ nodes = {
                     'resource': 'noun_usages'
                 }
             }
-        },
-        'parents': {
-            'type': 'list',
-            'schema': {
-            'type': 'objectid',
-                'data_relation': {
-                    'resource': 'connections'
-                }
-            }
-        },
-        'children': {
-            'type': 'list',
-            'schema': {
-            'type': 'objectid',
-                'data_relation': {
-                    'resource': 'connections'
-                }
-            }
         }
-
     }
 }
 
@@ -117,20 +92,46 @@ connections = {
     # Schema definition, based on Cerberus grammar. Check the Cerberus project
     # (https://github.com/nicolaiarocci/cerberus) for details.
     'schema': {
-        'parent_node_id': {
+        'primary_node_id': {
             'type': 'objectid',
             'data_relation': {
                 'resource': 'nodes'
             }
         },
-        'child_node_id': {
+        'related_node_id': {
             'type': 'objectid',
             'data_relation': {
                 'resource': 'nodes'
             }
+        },
+        'relationship': {
+            'type': 'string',
+            'allowed': ['parent, uncle, sibling, child']
         },
         'score': {
             'type': 'integer'
+        },
+        'show': {
+            'type': 'boolean'
+        }
+    }
+}
+
+transactions = {
+    'item_title': 'transaction',
+    'schema': {
+        'related_connection_id': {
+            'type': 'objectid',
+            'data_relation': {
+                'resource': 'connections'
+            }
+        },
+        'score_delta': {
+            'type': 'integer'
+        },
+        'transaction_type': {
+            'type': 'string',
+            'allowed': ['nltk', 'human', 'articles']
         }
     }
 }
@@ -141,11 +142,8 @@ noun_usages = {
     # Schema definition, based on Cerberus grammar. Check the Cerberus project
     # (https://github.com/nicolaiarocci/cerberus) for details.
     'schema': {
-        'noun_id': {
-            'type': 'objectid',
-            'data_relation': {
-                'resource': 'nouns'
-            }
+        'noun': {
+            'type': 'string',
         },
         'article_id': {
             'type': 'objectid',
@@ -178,36 +176,10 @@ articles = {
     }
 }
 
-nouns = {
-    'item_title': 'noun',
-    # Schema definition, based on Cerberus grammar. Check the Cerberus project
-    # (https://github.com/nicolaiarocci/cerberus) for details.
-    'schema': {
-        'text': {
-            'type': 'string',
-            'unique': True,
-            'required': True,
-        },
-        'hyponyms': {
-            'type': 'list',
-            'schema': {
-                'type': 'string'
-            }
-        },
-        'hypernyms': {
-            'type': 'list',
-            'schema': {
-                'type': 'string'
-            }
-        },
-    }
-}
-
 
 # The DOMAIN dict explains which resources will be available and how they will
 # be accessible to the API consumer.
 DOMAIN = {
-    'nouns': nouns,
     'articles': articles,
     'noun_usages': noun_usages,
     'nodes': nodes,

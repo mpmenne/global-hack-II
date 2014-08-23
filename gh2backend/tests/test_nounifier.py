@@ -1,11 +1,11 @@
 import os
-import wsgi_app
+from gh2backend import wsgi_app
 from unittest import TestCase
 from eve import Eve
 from pymongo import MongoClient
-from nounifier import find_nouns, get_noun_related_words
-from util import nouns
-from tests.settings_test_py import MONGO_HOST, MONGO_PORT, MONGO_DBNAME, \
+from gh2backend import nounifier
+from gh2backend import util
+from gh2backend.tests.settings_test_py import MONGO_HOST, MONGO_PORT, MONGO_DBNAME, \
     MONGO_USERNAME, MONGO_PASSWORD
 
 blob = """An aide to Libya's Prime Minister Ali Zeidan has been kidnapped on the outskirts of the capital, Tripoli, government officials say.
@@ -62,17 +62,17 @@ class TestNounifier(TestCase):
         self.connection.close()
 
     def test_get_nouns(self):
-        result = find_nouns(blob)
+        result = nounifier.find_nouns(blob)
         self.assertTrue(len(result)>90)
 
     def test_get_noun_related_words(self):
-        result = get_noun_related_words('cardinal')
+        result = nounifier.get_noun_related_words('cardinal')
         self.assertTrue(result)
 
     def test_post_internal_noun(self):
 
         noun = 'cardinal'
-        data = get_noun_related_words(noun)
+        data = nounifier.get_noun_related_words(noun)
 
-        result = nouns.post_noun(self.test_client, noun, **data)
+        result = util.nouns.post_noun(self.test_client, noun, **data)
         self.assertEqual(result.status_code, 201)
