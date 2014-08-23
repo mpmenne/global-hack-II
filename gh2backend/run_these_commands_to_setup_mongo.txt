@@ -1,0 +1,3 @@
+$mongo
+use maindb
+db.addUser( { user: "user", pwd: "BongoDrums!", roles: [ "readWrite" ] } )
