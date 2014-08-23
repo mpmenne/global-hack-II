@@ -36,7 +36,7 @@ class TestWorkerFileIO(TestCase):
         self.assertTrue(result)
 
     def test_load_json_data(self):
-        path = os.path.join(DATA_FOLDER, '81184-siblings.json')
+        path = os.path.join(DATA_FOLDER, '30-siblings.json')
         result = fileio.load_json_data(path)
         self.assertTrue(result)
 

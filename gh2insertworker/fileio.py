@@ -2,7 +2,7 @@ import json
 import os
 from os.path import isfile, join
 from os import listdir
-from gh2insertworker.settings import DATA_FOLDER
+from settings import DATA_FOLDER
 
 
 class Article(object):
@@ -34,7 +34,7 @@ def group_file_names(paths):
 
 def load_json_data(path):
     with open(path, 'r') as f:
-        data = json.loads(f.read())
+        data = json.load(f)
         return data
 
 
@@ -51,5 +51,5 @@ def iterate_through_data_folder():
     for path in filepaths:
         article_name, article_type = get_article_name_and_type(path)
         for connection in build_relationship_definitions(article_type, path):
-            # print connection
-            pass
+            print connection
+    return True
