@@ -1,6 +1,6 @@
 from eve import Eve
 import os
-from gh2backend import nounifier
+import nounifier
 
 app = Eve(settings=os.path.join(
     os.path.dirname(os.path.realpath(__file__)), 'settings.py'))

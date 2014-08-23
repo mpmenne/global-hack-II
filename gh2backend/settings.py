@@ -71,12 +71,6 @@ nodes = {
     # Schema definition, based on Cerberus grammar. Check the Cerberus project
     # (https://github.com/nicolaiarocci/cerberus) for details.
     'schema': {
-        'noun_id': {
-            'type': 'objectid',
-            'data_relation': {
-                'resource': 'nouns'
-            }
-        },
         'show': {
             'type': 'boolean'
         },
@@ -86,24 +80,6 @@ nodes = {
             'type': 'objectid',
                 'data_relation': {
                     'resource': 'noun_usages'
-                }
-            }
-        },
-        'parents': {
-            'type': 'list',
-            'schema': {
-            'type': 'objectid',
-                'data_relation': {
-                    'resource': 'connections'
-                }
-            }
-        },
-        'children': {
-            'type': 'list',
-            'schema': {
-            'type': 'objectid',
-                'data_relation': {
-                    'resource': 'connections'
                 }
             }
         }
@@ -144,10 +120,10 @@ connections = {
 transactions = {
     'item_title': 'transaction',
     'schema': {
-        'related_node_id': {
+        'related_connection_id': {
             'type': 'objectid',
             'data_relation': {
-                'resource': 'nodes'
+                'resource': 'connections'
             }
         },
         'score_delta': {
