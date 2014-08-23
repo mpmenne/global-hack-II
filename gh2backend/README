@@ -1,0 +1,31 @@
+1. Read through articles and make strings
+2. Create a list of nouns
+3. Create a noun document for each noun (unless its created)
+4. Create an article document with a list of nouns (refs) and their paths
+5. Create mongo search strings that find most used nouns
+
+noun
+    id
+    text
+    hyponyms (list)
+    hypernyms (list)
+
+noun_usage
+    noun_id
+    article_id
+
+connections
+    parent_node_id
+    child_node_id
+    score
+
+nodes
+    noun_id
+    noun_usages (list)
+    show
+    parents
+    children
+
+article
+    path
+    noun_usages (list)
