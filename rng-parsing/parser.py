@@ -7,6 +7,8 @@ from os.path import isfile, join
 
 from collections import Counter
 
+import itertools
+
 def get_core_words( text ):
 
     #TOKENIZATION
@@ -40,13 +42,12 @@ def pre_process_text ( text ):
 root_path = "/home/dummey/global-hack-data/articles"
 text_file_paths = [ join(root_path, f) for f in listdir(root_path) if isfile(join(root_path,f)) ]
 
-aggregate = Counter();
+#aggregate = Counter();
 
 for text_file_path in text_file_paths:
     raw_text = pre_process_text(load_text(text_file_path))
     core_words = get_core_words(raw_text)
-    aggregate.update( Counter(core_words) )
-    if len(list(aggregate.elements())) > 10000:
-        break
+    word_counter = Counter(core_words)
 
-print aggregate.most_common(100)
+    print (itertools.combinations(word_counter.keys(), 2))[0]
+    break
