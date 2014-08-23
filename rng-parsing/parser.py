@@ -42,7 +42,8 @@ def pre_process_text ( text ):
 root_path = "/home/dummey/global-hack-data/articles"
 text_file_paths = [ join(root_path, f) for f in listdir(root_path) if isfile(join(root_path,f)) ]
 
-#aggregate = Counter();
+aggregate = Counter();
+counter = 0
 
 for text_file_path in text_file_paths:
     raw_text = pre_process_text(load_text(text_file_path))
@@ -54,5 +55,9 @@ for text_file_path in text_file_paths:
     for word_pair in word_pairs:
         scores.append((word_pair, word_counter[word_pair[0]] * word_counter[word_pair[1]]))
         
-    print sorted(scores, key=lambda x: x[1])
-    break
+    aggregate.update(Counter(dict(sorted(scores, key=lambda x: x[1]))))
+    counter += 1
+    if counter > 1:
+        break
+
+print aggregate.most_common(10)
