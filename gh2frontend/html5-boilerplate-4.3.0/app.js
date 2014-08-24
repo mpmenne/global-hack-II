@@ -20,18 +20,18 @@ launchCodeTvApp.controller('OntologyController', function ($scope, $http) {
         $scope.bricks.push(data._items[i]);
       }
     }).error(function(data) {
-      alert('Error!!!!')
+      console.log('Error getting next page!!!!')
     })
   }
 
   $http.get('api/v1/nodes').success(function(data) {
-    $scope.nextPage = data._links.next.href
+    $scope.nextPage = data._links.next.href;
     for (var i = 0; i < data._items.length; i++ ){
       $scope.bricks.push(data._items[i]);
     }
 
     console.log('lets stop here')
   }).error(function(data) {
-    alert('Error!!!!')
+    console.log('Error getting nodes!!');
   })
 })
