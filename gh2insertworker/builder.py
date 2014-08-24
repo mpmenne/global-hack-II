@@ -8,14 +8,6 @@ import nodes
 import transactions
 
 
-def _read_data_from_file():
-    data = {}
-    for fname in []:
-        f = open(fname, 'rb')
-        data[fname] = f.read()
-    return data
-
-
 def parse_response_body(response_body):
     response = response_body.json()
     try:
@@ -31,8 +23,7 @@ def parse_response_body_get_etag(response_body):
 
 def build_data(http_client, article_name, relationships):
     # create a new article and get its id and etag
-    new_article_id, new_article_etag = parse_response_body_get_etag(
-        articles.post_article(http_client, article_name, []))
+    new_article_id = parse_response_body(articles.post_article(http_client, article_name, []))
 
     line = 1
     for primary, related, score, relationship in relationships:
@@ -75,7 +66,7 @@ def build_data(http_client, article_name, relationships):
         # create connections
         existing_connection_id = connections.get_connection(http_client, add_primary_node_id, add_related_node_id)
         if not existing_connection_id:
-            add_connections_id, add_connections_etag = parse_response_body_get_etag(
+            add_connections_id = parse_response_body(
                 connections.post_connections(http_client, add_primary_node_id, add_related_node_id, relationship))
         else:
             add_connections_id = existing_connection_id

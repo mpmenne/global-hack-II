@@ -112,7 +112,8 @@ connections = {
             'allowed': ['parent', 'uncle', 'siblings', 'children']
         },
         'score': {
-            'type': 'integer'
+            'type': 'integer',
+            'default': 5
         },
         'show': {
             'type': 'boolean'
