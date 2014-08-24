@@ -27,45 +27,48 @@ def build_data(http_client, article_name, relationships):
             line += 1
         except UnicodeEncodeError:
             pass
-        # create noun usages and their ids for the primary
-        existing_primary_noun = noun_usages.get_noun_usages(http_client, primary)
-        if not existing_primary_noun:
-            add_noun_usage_response = parse_response_body(
-                noun_usages.post_noun_usage(http_client, primary, new_article_id))
+
+        try:
+            # create noun usages and their ids for the primary
+            existing_primary_noun = noun_usages.get_noun_usages(http_client, primary)
+            if not existing_primary_noun:
+                add_noun_usage_response = parse_response_body(
+                    noun_usages.post_noun_usage(http_client, primary, new_article_id))
 
 
-        # create noun usages and their ids for the related
-        existing_related_noun = noun_usages.get_noun_usages(http_client, primary)
-        if not existing_related_noun:
-            add_noun_usage_response = parse_response_body(
-                noun_usages.post_noun_usage(http_client, related, new_article_id))
+            # create noun usages and their ids for the related
+            existing_related_noun = noun_usages.get_noun_usages(http_client, primary)
+            if not existing_related_noun:
+                add_noun_usage_response = parse_response_body(
+                    noun_usages.post_noun_usage(http_client, related, new_article_id))
 
 
-        # create node for the primary
-        existing_primary_id = nodes.get_nodes(http_client, primary)
-        if not existing_primary_id:
-            add_primary_node_id = parse_response_body(
-                nodes.post_nodes(http_client, primary, True))
-        else:
-            add_primary_node_id = existing_primary_id
+            # create node for the primary
+            existing_primary_id = nodes.get_nodes(http_client, primary)
+            if not existing_primary_id:
+                add_primary_node_id = parse_response_body(
+                    nodes.post_nodes(http_client, primary, True))
+            else:
+                add_primary_node_id = existing_primary_id
 
-        # create node for the related
-        existing_secondary_id = nodes.get_nodes(http_client, related)
-        if not existing_secondary_id:
-            add_related_node_id = parse_response_body(
-                nodes.post_nodes(http_client, related, True))
-        else:
-            add_related_node_id = existing_secondary_id
+            # create node for the related
+            existing_secondary_id = nodes.get_nodes(http_client, related)
+            if not existing_secondary_id:
+                add_related_node_id = parse_response_body(
+                    nodes.post_nodes(http_client, related, True))
+            else:
+                add_related_node_id = existing_secondary_id
 
-        # create connections
-        existing_connection_id = connections.get_connection(http_client, add_primary_node_id, add_related_node_id)
-        if not existing_connection_id:
-            add_connections_id = parse_response_body(
-                connections.post_connections(http_client, add_primary_node_id, add_related_node_id, relationship))
-        else:
-            add_connections_id = existing_connection_id
+            # create connections
+            existing_connection_id = connections.get_connection(http_client, add_primary_node_id, add_related_node_id)
+            if not existing_connection_id:
+                add_connections_id = parse_response_body(
+                    connections.post_connections(http_client, add_primary_node_id, add_related_node_id, relationship))
+            else:
+                add_connections_id = existing_connection_id
 
-        add_transaction_id = parse_response_body(
-            transactions.post_transactions(http_client, add_connections_id, score, 'nltk'))
-
+            add_transaction_id = parse_response_body(
+                transactions.post_transactions(http_client, add_connections_id, score, 'nltk'))
+        except Exception as e:
+            print "There was an error {0}".format(e.message)
 
