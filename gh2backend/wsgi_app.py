@@ -10,10 +10,5 @@ app = Eve(settings=os.path.join(
 def hello_world():
     return 'Hello World!'
 
-@app.route('/generate_mock_data')
-def generate_mock_data():
-    return nounifier.build_data(app.test_client)
-
-
 if __name__ == '__main__':
     app.run('0.0.0.0')

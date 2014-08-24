@@ -1,8 +1,15 @@
 import json
+import urllib
 from settings import SERVER_BASE_URL
 
 HEADERS = {'Content-Type': 'application/json'}
 
+
+def get_nodes(http_client, noun):
+    noun = urllib.quote_plus(noun)
+    result = http_client.get('''{0}/nodes?where={{"noun": "{1}"}}'''.format(SERVER_BASE_URL, noun), headers=HEADERS)
+    items = result.json()['_items']
+    return items[0]['_id'] if items else []
 
 def post_nodes(http_client, noun, show, noun_usages):
     payload = dict(

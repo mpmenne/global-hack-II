@@ -15,8 +15,6 @@ def post_article(http_client, path, noun_usages):
 
 def patch_article(http_client, id, etag, noun_usages):
     payload = dict(
-        id=id,
-        etag=etag,
         noun_usages=noun_usages
     )
     result = http_client.patch('{0}/articles/{1}'.format(SERVER_BASE_URL, id), data=json.dumps(payload),
