@@ -195,10 +195,13 @@ header:after {
     background-color: #111;
 }
 
-/* Filter */
-#grid-filter {
-    display:block;
-    margin: 2em auto;
+/* Functions */
+
+article {text-align: center; }
+
+#grid-filter, button {
+    display:inline-block;
+    margin: 0 1em 1em 0;
 }
 
 
