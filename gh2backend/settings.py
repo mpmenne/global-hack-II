@@ -187,4 +187,5 @@ DOMAIN = {
     'noun_usages': noun_usages,
     'nodes': nodes,
     'connections': connections,
+    'transactions': transactions,
 }

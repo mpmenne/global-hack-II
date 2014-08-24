@@ -18,7 +18,7 @@ def add_score(items):
     print connection
 
 app = Eve()
-app.on_insert_transactions += add_score
+# app.on_insert_transactions += add_score
 
 if __name__ == '__main__':
     app.run('0.0.0.0')
