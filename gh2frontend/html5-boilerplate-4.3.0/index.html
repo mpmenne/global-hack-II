@@ -15,13 +15,17 @@
         <link rel="stylesheet" href="css/normalize.css">
         <link rel="stylesheet" href="css/main.css">
         <script src="js/vendor/modernizr-2.6.2.min.js"></script>
+
+        <script type="application/javascript" src="lib/bower_components/angular/angular.js"></script>
+        <script type="application/javascript" src="app.js"></script>
     </head>
-    <body>
+    <body ng-app="application" ng-controller="OntologyController">
         <!--[if lt IE 7]>
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
+        <h1 >{{message}}</h1>
 
-        <header class="container">
+        <header class="container" >
             <h1>Globalhack - Team 2048</h1>
         </header>
         
@@ -33,27 +37,35 @@
                 <option value="category-two">Category Two</option>
             </select>
             <!-- Add -->
-            <button id="prepend-button">More</button>
-            <!-- Stamp -->
+
+
+
             <button id="toggle-stamp">Focus</button>
+
+            <button id="prepend-button" ng-click="more()">More</button>
+
         </article>
 
+        <div masonry>
+          <div class="masonry-brick" ng-repeat="brick in bricks">
+            <span class="item category-one" ng-src="{{ brick.src }}" ng-click="hide(this)">{{ brick.noun }}</span>
+          </div>
+        </div>
+
         <!-- Ontology -->
-        <div class="wrapper">
-            <div id="content" class="clearfix">
-                <div class="item category-one"></div>
-                <div class="item category-one"></div>
-                <div id="test" class="item featured"></div>
-                <div class="item category-two"></div>
-                <div class="item category-two"></div>
-                <div class="item featured"></div>
-                <div class="item"></div>
-                <div class="item stamp"></div>
-                <div class="item"></div>
-                <div class="item"></div>
-                <div class="item"></div>
-                <div class="item"></div>
-            </div>
+        <div id="content" class="clearfix">
+            <!--<div class="item category-one"></div>-->
+            <!--<div class="item category-one"></div>-->
+            <!--<div id="test" class="item featured"></div>-->
+            <!--<div class="item category-two"></div>-->
+            <!--<div class="item category-two"></div>-->
+            <!--<div class="item featured"></div>-->
+            <!--<div class="item"></div>-->
+            <!--<div class="item"></div>-->
+            <!--<div class="item"></div>-->
+            <!--<div class="item"></div>-->
+            <!--<div class="item"></div>-->
+            <!--<div class="item"></div>-->
         </div>
         
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
@@ -69,5 +81,11 @@
             r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
             ga('create','UA-XXXXX-X');ga('send','pageview');
         </script>
+
+        <script type="application/javascript" src="lib/bower_components/jquery/dist/jquery.js"></script>
+
+        <script type="application/javascript" src="lib/bower_components/angular-masonry/angular-masonry.js"></script>
+        <script type="application/javascript" src="lib/bower_components/lodash/dist/lodash.js"></script>
+
     </body>
 </html>

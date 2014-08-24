@@ -1,13 +1,5 @@
 import json
-from gh2backend.util import connections, noun_usages, nodes, transactions, articles
-
-
-def _read_data_from_file():
-    data = {}
-    for fname in []:
-        f = open(fname, 'rb')
-        data[fname] = f.read()
-    return data
+import connections, noun_usages, nodes, transactions, articles
 
 
 def parse_response_body(response_body):
@@ -23,26 +15,61 @@ def parse_response_body_get_etag(response_body):
     return id, response_body['_etag']
 
 
-def build_data(flask_test_client, article_preprocessed):
-    article_data = json.loads(article_preprocessed)
-
+def build_data(http_client, article_name, relationships):
     # create a new article and get its id and etag
-    new_article_id, new_article_etag = parse_response_body_get_etag(
-        articles.post_article(flask_test_client, article_data.path, []))
+    new_article_id = parse_response_body(articles.post_article(http_client, article_name, []))
 
-    #create noun usages and their ids
-    noun_usages_ids = []
-    for noun_usage in article_data.nouns:
-        add_noun_usage_response = parse_response_body(
-            noun_usages.post_noun_usages(flask_test_client, noun_usage, new_article_id))
-        noun_usages_ids.append(add_noun_usage_response)
+    line = 1
+    for primary, related, score, relationship in relationships:
 
-        #create node for the noun
+        try:
+            print "{0}/{1} Processing primary: {2}".format(line, len(relationships), primary)
+            line += 1
+        except UnicodeEncodeError:
+            pass
+
+        try:
+            # create noun usages and their ids for the primary
+            existing_primary_noun = noun_usages.get_noun_usages(http_client, primary)
+            if not existing_primary_noun:
+                add_noun_usage_response = parse_response_body(
+                    noun_usages.post_noun_usage(http_client, primary, new_article_id))
 
 
-    #attach those noun usages to article
-    new_article_id, new_article_etag = articles.patch_article(flask_test_client, new_article_id, new_article_etag,
-                                                              noun_usages_ids)
+            # create noun usages and their ids for the related
+            existing_related_noun = noun_usages.get_noun_usages(http_client, primary)
+            if not existing_related_noun:
+                add_noun_usage_response = parse_response_body(
+                    noun_usages.post_noun_usage(http_client, related, new_article_id))
 
 
+            # create node for the primary
+            existing_primary_id = nodes.get_nodes(http_client, primary)
+            if not existing_primary_id:
+                add_primary_node_id = parse_response_body(
+                    nodes.post_nodes(http_client, primary, True))
+            else:
+                add_primary_node_id = existing_primary_id
+
+            # create node for the related
+            existing_secondary_id = nodes.get_nodes(http_client, related)
+            if not existing_secondary_id:
+                add_related_node_id = parse_response_body(
+                    nodes.post_nodes(http_client, related, True))
+            else:
+                add_related_node_id = existing_secondary_id
+
+            # create connections
+            existing_connection_id = connections.get_connection(http_client, add_primary_node_id, add_related_node_id)
+            if not existing_connection_id:
+                add_connections_id = parse_response_body(
+                    connections.post_connections(http_client, add_primary_node_id, add_related_node_id, relationship))
+            else:
+                add_connections_id = existing_connection_id
+
+            add_transaction_id = parse_response_body(
+                transactions.post_transactions(http_client, add_connections_id, score, 'nltk'))
+        except Exception as e:
+            print "There was an error"
+            continue
 

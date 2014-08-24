@@ -17,7 +17,7 @@ $(document).ready(function() {
 	var elem = document.querySelector('#test');
 	
 	function onElemClick(event){
-		console.log(event.type + ' just happned to #' + event.target.id );
+		console.log(event.type + ' just happened to #' + event.target.id );
 	}
 
 	eventie.bind(elem, 'click', onElemClick);
@@ -53,7 +53,7 @@ $(document).ready(function() {
 	function getItemElement() {
 		var elem = document.createElement('div');
 		var rand = Math.random();
-		var size= rand > 0.92 ? 'large' : rand > 0.84 ? 'medium' : rand > 0.65 ? 'thumbnail' : '';
+		var size= 'medium';
 		elem.className = "item " + size;
 		return elem;
 	}
@@ -63,11 +63,10 @@ $(document).ready(function() {
 		var elems = [];
 		var fragment = document.createDocumentFragment();
 
-		for ( var i = 0; i < 1; i++ ) {
-			var elem = getItemElement();
-			fragment.appendChild( elem );
-			elems.push( elem );
-		}
+		var elem = getItemElement();
+		fragment.appendChild( elem );
+		elems.push( elem );
+		
 		// prepend elements to container
 		container.insertBefore( fragment, container.firstChild );
 		// add and lay out newly prepended elements
@@ -106,6 +105,18 @@ $(document).ready(function() {
 	 **/
 
 
-});
 
 });
+
+
+function fetchNodes() {
+	$.get('http://54.200.98.221:5000/api/v1', function(data) {
+		return data;
+	});
+}
+
+function updateNodesOnPage() {
+	var jsonNodes = fetchNodes();
+	// update data binding to bricks/nodes
+}
+

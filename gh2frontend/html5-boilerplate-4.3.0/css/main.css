@@ -132,10 +132,12 @@ textarea {
 
     display: block;
     float: left;
-    width: 50px;
+    width: 130px;
     height: 50px;
     margin: 0 20px 20px 0;
-    
+
+    word-wrap: break-word;
+
     -webkit-transition: left .4s ease-in-out, top .4s ease-in-out .4s;
     -moz-transition: left .4s ease-in-out, top .4s ease-in-out .4s;
     -ms-transition: left .4s ease-in-out, top .4s ease-in-out .4s;
