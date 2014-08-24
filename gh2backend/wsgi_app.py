@@ -10,10 +10,16 @@ app = Eve(settings=os.path.join(
 def hello_world():
     return 'Hello World!'
 
-@app.route('/generate_mock_data')
-def generate_mock_data():
-    return nounifier.build_data(app.test_client)
 
+def add_score(items):
+    connections = app.data.driver.db['connections']
+    connection = connections.find_one({'_id': items[0]['related_connection_id']})
+    if connection:
+        connections.update({'_id': connection['_id']},
+                           {"$inc": {"score": items[0]['score_delta']}})
+
+app = Eve()
+app.on_insert_transactions += add_score
 
 if __name__ == '__main__':
     app.run('0.0.0.0')

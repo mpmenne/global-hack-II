@@ -13,13 +13,9 @@ def post_article(http_client, path, noun_usages):
     return result
 
 
-def patch_article(http_client, id, etag, noun_usages):
-    payload = dict(
-        id=id,
-        etag=etag,
-        noun_usages=noun_usages
-    )
-    result = http_client.patch('{0}/articles/{1}'.format(SERVER_BASE_URL, id), data=json.dumps(payload),
+def patch_article(http_client, id, etag):
+
+    result = http_client.patch('{0}/articles/{1}'.format(SERVER_BASE_URL, id),
                                      headers={'Content-Type': 'application/json', 'If-Match': etag})
     return result
 

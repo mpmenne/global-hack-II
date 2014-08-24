@@ -21,19 +21,28 @@
             <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
         <![endif]-->
 
-
-
-        <!-- Ontology -->
         <header class="container">
             <h1>Globalhack - Team 2048</h1>
         </header>
+        
+        <article>
+            <!-- Filter -->
+            <select name="" id="grid-filter">
+                <option value=""></option>
+                <option value="category-one">Category One</option>
+                <option value="category-two">Category Two</option>
+            </select>
+            <!-- Add -->
+            <button id="prepend-button">More</button>
+        </article>
 
-        <div id="content" class="container clearfix">
-            <div class="item"></div>
-            <div class="item"></div>
-            <div class="item featured"></div>
-            <div class="item"></div>
-            <div class="item"></div>
+        <!-- Ontology -->
+        <div id="content" class="clearfix">
+            <div class="item category-one"></div>
+            <div class="item category-one"></div>
+            <div id="test" class="item featured"></div>
+            <div class="item category-two"></div>
+            <div class="item category-two"></div>
             <div class="item featured"></div>
             <div class="item"></div>
             <div class="item"></div>
@@ -43,7 +52,7 @@
             <div class="item"></div>
         </div>
 
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+        
         <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.10.2.min.js"><\/script>')</script>
         <script src="js/plugins.js"></script>
         <script src="js/main.js"></script>
@@ -53,7 +62,7 @@
             (function(b,o,i,l,e,r){b.GoogleAnalyticsObject=l;b[l]||(b[l]=
             function(){(b[l].q=b[l].q||[]).push(arguments)});b[l].l=+new Date;
             e=o.createElement(i);r=o.getElementsByTagName(i)[0];
-            e.src='//www.google-analytics.com/analytics.js';
+            e.src='';
             r.parentNode.insertBefore(e,r)}(window,document,'script','ga'));
             ga('create','UA-XXXXX-X');ga('send','pageview');
         </script>
