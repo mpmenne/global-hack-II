@@ -70,5 +70,6 @@ def build_data(http_client, article_name, relationships):
             add_transaction_id = parse_response_body(
                 transactions.post_transactions(http_client, add_connections_id, score, 'nltk'))
         except Exception as e:
-            print "There was an error {0}".format(e.message)
+            print "There was an error"
+            continue
 
