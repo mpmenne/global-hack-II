@@ -102,29 +102,33 @@ textarea {
    David
    ========================================================================== */
 
-body {
-
- 
+* {
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
 }
 
 /* Masonry window */
 #content {
-    /*width: 980px;*/
+    width: 1200px;
     /*width: 95%;*/
-    width: auto;
-    margin: 0 auto;
+    /*width: auto;*/
+    margin: auto;
 }
 
 
 /* Masonry column widths */
 .item {
     /* toggle for debugging */
-    background-color: #bde7b8;
+    
     box-shadow: inset 1px -1px 1px gray, inset -1px 1px 1px gray;
+    background: #2296DD;
+    border: 2px solid #333;
 
     display: block;
     float: left;
-    width: 300px;
+    width: 50px;
+    height: 50px;
     margin: 0 20px 20px 0;
     -webkit-transition: left .4s ease-in-out, top .4s ease-in-out .4s;
     -moz-transition: left .4s ease-in-out, top .4s ease-in-out .4s;
@@ -134,13 +138,30 @@ body {
 }
 
 /* Masonry item widths */
+.thumbnail {
+    width:  100px;
+    height: 100px;
+    background: #cfcfcf
+}
+
+.medium {
+    width:  150px;
+    height: 50px;
+    background: #A6E392
+}
+
+.large {
+    width:  200px;
+    height: 100px;
+    background: #D092E3
+}
 
 .featured {
     /* toggle for debugging */
     background-color: #bde7b8;
     box-shadow: inset 1px -1px 1px gray, inset -1px 1px 1px gray;
 
-    width: 620px;
+    width: 390px;
     height: 300px;
 }
 
@@ -148,16 +169,16 @@ body {
 
 /* Titles */
 h1 {
-  font-family: "Times New Roman", Times, serif;
-  font-weight: normal;
-  font-size: 0.9em;
-  text-transform: uppercase;
-  color: #000;
-  letter-spacing: .2em;
-  line-height: 1;
-  text-align: center;
-  margin: 0;
-  display: inline;
+    font-family: "Times New Roman", Times, serif;
+    font-weight: normal;
+    font-size: 0.9em;
+    text-transform: uppercase;
+    color: #000;
+    letter-spacing: .2em;
+    line-height: 1;
+    text-align: center;
+    margin: 0;
+    display: inline;
 }
 
 header {
@@ -166,16 +187,19 @@ header {
 }
 
 header:after {
-  content: "";
-  display: block;
-  width: 30px;
-  height: 1px;
-  margin: 0.8em auto;
-  background-color: #111;
+    content: "";
+    display: block;
+    width: 30px;
+    height: 1px;
+    margin: 0.8em auto;
+    background-color: #111;
 }
 
-
-
+/* Filter */
+#grid-filter {
+    display:block;
+    margin: 2em auto;
+}
 
 
 
@@ -294,14 +318,47 @@ header:after {
    Modify as content requires.
    ========================================================================== */
 
-@media only screen and (min-width: 35em) {
-    /* Style adjustments for viewports that meet the condition */
+/*Media Queries*/
+@media only screen and (max-width : 1199px),
+only screen and (max-device-width : 1199px){
+    #content {
+        width: 1000px;
+    }
+}
+ 
+ 
+@media only screen and (max-width : 999px),
+only screen and (max-device-width : 999px){
+    #content {
+        width: 800px;
+    }
+}
+ 
+@media only screen and (max-width : 799px),
+only screen and (max-device-width : 799px){
+    #content {
+        width: 600px;
+    }
+}
+ 
+@media only screen and (max-width : 599px),
+only screen and (max-device-width : 599px){
+    #content {
+        width: 400px;
+    }
+}
+ 
+@media only screen and (max-width : 399px),
+only screen and (max-device-width : 399px){
+    #content {
+        width: 200px;
+    }
 }
 
 @media print,
        (-o-min-device-pixel-ratio: 5/4),
        (-webkit-min-device-pixel-ratio: 1.25),
-       (min-resolution: 120dpi) {
+       (min-resolution: 120dppx) {
     /* Style adjustments for high resolution devices */
 }
 
