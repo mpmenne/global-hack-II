@@ -91,6 +91,17 @@ counter = 0
 for text_file_path in text_file_paths:
     print text_file_path
 
+    #construct output path names
+    source_name = basename(text_file_path).split('.')[0]
+    sibling_output = join('dump', source_name + '-siblings.json')
+    parent_output = join('dump', source_name + '-parent.json')
+    children_output = join('dump', source_name + '-children.json')
+
+    #if all of output files exist, skip
+    if isfile(sibling_output) and isfile(parent_output) and isfile(children_output):
+        print "\t Skipping"
+        continue
+
     related_aggregate = Counter()
     parent_aggregate = Counter()
     children_aggregate = Counter()
@@ -100,6 +111,15 @@ for text_file_path in text_file_paths:
         
     #related word pairs
     related_word_pairs = word_pair_weights(core_words)
+
+    #prune relate_word_pairs that only have 1 count
+    related_word_pairs_cleaned = {}
+    for pair in related_word_pairs:
+        score = related_word_pairs[pair]
+        if score > 10:
+            related_word_pairs_cleaned[pair] = score
+    related_word_pairs = Counter(related_word_pairs_cleaned)
+
     related_aggregate.update(Counter(related_word_pairs))
 
     for pairs in related_word_pairs:       
@@ -117,17 +137,11 @@ for text_file_path in text_file_paths:
         children = get_children(pairs[1])
         children_aggregate.update(_associate_with_pair_and_weights(children, pairs[0], score))
 
-    source_name = basename(text_file_path).split('.')[0]
-    with open(join('dump', source_name + '-siblings.json'), 'w') as outfile:
+    with open(sibling_output, 'w') as outfile:
         json.dump(related_aggregate.most_common(), outfile)
 
-    with open(join('dump', source_name + '-parents.json'), 'w') as outfile:
+    with open(parent_output, 'w') as outfile:
         json.dump(parent_aggregate.most_common(), outfile)
 
-    with open(join('dump', source_name + '-children.json'), 'w') as outfile:
+    with open(children_output, 'w') as outfile:
         json.dump(children_aggregate.most_common(), outfile)
-
-
-    counter += 1
-    if counter > 5:
-        break
