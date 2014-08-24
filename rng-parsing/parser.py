@@ -82,7 +82,7 @@ def _associate_with_pair_and_weights(base, other, score, decay = 0.5):
     return Counter(dict(parent_pairs_with_weight))
 
 
-root_path = "/home/dummey/global-hack-data/articles"
+root_path = "/home/dummey/global-hack-data/articles/summary"
 text_file_paths = [ join(root_path, f) for f in listdir(root_path) if isfile(join(root_path,f)) ]
 
 counter = 0
@@ -116,7 +116,7 @@ for text_file_path in text_file_paths:
     related_word_pairs_cleaned = {}
     for pair in related_word_pairs:
         score = related_word_pairs[pair]
-        if score > 10:
+        if score > 4:
             related_word_pairs_cleaned[pair] = score
     related_word_pairs = Counter(related_word_pairs_cleaned)
 

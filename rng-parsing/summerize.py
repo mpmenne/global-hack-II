@@ -48,6 +48,7 @@ p = Popen([sbt_path, 'run'], stdin=PIPE, stdout=PIPE)
 cache = []
 recording = 0
 cur_file = ""
+counter = 0
 while True:
     last_line = p.stdout.readline()
     # if len(last_line) < 1:
@@ -59,9 +60,15 @@ while True:
     elif last_line.find('Provide the article title:') > -1:
         p.stdin.write("\r")
     elif last_line.find('Provide the article text') > -1:
-        cur_file = text_file_paths.pop()
+        while True:
+            cur_file = text_file_paths.pop()
+            source_name = basename(cur_file).split('.')[0]
+            file_output_path = join(output_path, source_name + ".summary.txt")
+            if isfile(file_output_path) == False:
+                break
+
         text = open(cur_file, 'r').read()
-        p.stdin.write(text.replace('\n', ' ') + "\r")
+        p.stdin.write(text.replace("\n", ' ').replace("\t", ' ') + "\r")
 
     if recording == 1:
         cache.append(last_line.replace("\n", ''))
@@ -79,3 +86,9 @@ while True:
             outfile.write(results)
 
         cache = []
+        counter += 1
+        if counter > 50:
+            #SUCH A HACK: online learning is overtraing, reset to base model every so often because magic
+            p.kill()
+            p = Popen([sbt_path, 'run'], stdin=PIPE, stdout=PIPE)
+            counter = 0

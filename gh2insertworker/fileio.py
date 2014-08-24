@@ -53,3 +53,5 @@ def iterate_through_data_folder():
         for connection in build_relationship_definitions(article_type, path):
             print connection
     return True
+
+iterate_through_data_folder()
