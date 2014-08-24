@@ -17,7 +17,7 @@ $(document).ready(function() {
 	var elem = document.querySelector('#test');
 	
 	function onElemClick(event){
-		console.log(event.type + ' just happned to #' + event.target.id );
+		console.log(event.type + ' just happened to #' + event.target.id );
 	}
 
 	eventie.bind(elem, 'click', onElemClick);
@@ -106,3 +106,14 @@ $(document).ready(function() {
 	 **/
 
 });
+
+function fetchNodes() {
+	$.get('http://54.200.98.221:5000/api/v1', function(data) {
+		return data;
+	});
+}
+
+function updateNodesOnPage() {
+	var jsonNodes = fetchNodes();
+	// update data binding to bricks/nodes
+}
