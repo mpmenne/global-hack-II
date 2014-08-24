@@ -44,7 +44,8 @@ $(document).ready(function() {
 	 * Add
 	 **/
 
-
+	(function (){
+	
 	var button = document.querySelector('#prepend-button');
 	var container = document.querySelector('#content');
 
@@ -76,12 +77,30 @@ $(document).ready(function() {
 		
 	});
 	
-
+	})();
 	
 	/*
 	 * Remove
 	 **/
+
+	(function (){
 	
+	var container = document.querySelector('#content');
+
+	eventie.bind( container, 'click', function( event ) {
+		// don't proceed if item was not clicked on
+		if ( !classie.has( event.target, 'item' ) ) {
+			return;
+		}
+		// remove clicked element
+		$('#content').masonry('remove', event.target );
+		
+		// layout remaining item elements
+		$('#content').masonry('layout');
+	});
+	
+	})();
+
 	/*
 	 * Stamp & Unstamp
 	 **/
