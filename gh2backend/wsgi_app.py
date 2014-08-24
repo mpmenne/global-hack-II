@@ -1,6 +1,6 @@
 from eve import Eve
 import os
-from gh2backend.util import builder, fileio
+from util import builder, fileio
 
 app = Eve(settings=os.path.join(
     os.path.dirname(os.path.realpath(__file__)), 'settings.py'))
