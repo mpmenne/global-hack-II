@@ -34,8 +34,6 @@ def build_data(http_client, article_name, relationships):
     new_article_id, new_article_etag = parse_response_body_get_etag(
         articles.post_article(http_client, article_name, []))
 
-    primary_noun_usages_ids = []
-    related_noun_usages_ids = []
     line = 1
     for primary, related, score, relationship in relationships:
 
@@ -49,20 +47,20 @@ def build_data(http_client, article_name, relationships):
         if not existing_primary_noun:
             add_noun_usage_response = parse_response_body(
                 noun_usages.post_noun_usage(http_client, primary, new_article_id))
-            primary_noun_usages_ids.append(add_noun_usage_response)
+
 
         # create noun usages and their ids for the related
         existing_related_noun = noun_usages.get_noun_usages(http_client, primary)
         if not existing_related_noun:
             add_noun_usage_response = parse_response_body(
                 noun_usages.post_noun_usage(http_client, related, new_article_id))
-            related_noun_usages_ids.append(add_noun_usage_response)
+
 
         # create node for the primary
         existing_primary_id = nodes.get_nodes(http_client, primary)
         if not existing_primary_id:
             add_primary_node_id = parse_response_body(
-                nodes.post_nodes(http_client, primary, True, primary_noun_usages_ids))
+                nodes.post_nodes(http_client, primary, True))
         else:
             add_primary_node_id = existing_primary_id
 
@@ -70,7 +68,7 @@ def build_data(http_client, article_name, relationships):
         existing_secondary_id = nodes.get_nodes(http_client, related)
         if not existing_secondary_id:
             add_related_node_id = parse_response_body(
-                nodes.post_nodes(http_client, related, True, related_noun_usages_ids))
+                nodes.post_nodes(http_client, related, True))
         else:
             add_related_node_id = existing_secondary_id
 
@@ -85,8 +83,4 @@ def build_data(http_client, article_name, relationships):
         add_transaction_id = parse_response_body(
             transactions.post_transactions(http_client, add_connections_id, score, 'nltk'))
 
-    # attach those noun usages to article
-    new_article_id, new_article_etag = parse_response_body_get_etag(
-        articles.patch_article(http_client, new_article_id, new_article_etag,
-                               primary_noun_usages_ids + related_noun_usages_ids))
 

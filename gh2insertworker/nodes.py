@@ -11,11 +11,11 @@ def get_nodes(http_client, noun):
     items = result.json()['_items']
     return items[0]['_id'] if items else []
 
-def post_nodes(http_client, noun, show, noun_usages):
+def post_nodes(http_client, noun, show):
     payload = dict(
         noun=noun,
         show=show,
-        noun_usages=noun_usages
+        noun_usages=[]
     )
     result = http_client.post('{0}/nodes'.format(SERVER_BASE_URL), data=json.dumps(payload), headers=HEADERS)
     return result
