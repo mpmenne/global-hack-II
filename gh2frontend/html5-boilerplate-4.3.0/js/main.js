@@ -1,8 +1,8 @@
 
-$(document).ready(function() {
+jQuery(document).ready(function() {
 
 	// Initialize Masonry
-	var msnry = $('#content');
+	var msnry = jQuery('#content');
 	msnry.masonry({
 		// Masonry options
 		columnWidth: 30,
@@ -25,18 +25,18 @@ $(document).ready(function() {
 	/*
 	 * Filter by binding event on any changes from select box
 	 **/
-	$('#grid-filter').on("change", function(){
-		group = $(this).val();
+	jQuery('#grid-filter').on("change", function(){
+		group = jQuery(this).val();
 		groupClass = "." + group;
 
 		if (group != "") {
-			$('.item').hide();
-			$(groupClass).show();
-			$('#content').masonry('layout');
+			jQuery('.item').hide();
+			jQuery(groupClass).show();
+			jQuery('#content').masonry('layout');
 		}
 		else {
-			$('.item').show();
-			$('#content').masonry('layout');
+			jQuery('.item').show();
+			jQuery('#content').masonry('layout');
 		}
 	});
 
@@ -53,7 +53,7 @@ $(document).ready(function() {
 	function getItemElement() {
 		var elem = document.createElement('div');
 		var rand = Math.random();
-		var size= rand > 0.92 ? 'large' : rand > 0.84 ? 'medium' : rand > 0.65 ? 'thumbnail' : '';
+		var size= 'medium';
 		elem.className = "item " + size;
 		return elem;
 	}
@@ -63,16 +63,15 @@ $(document).ready(function() {
 		var elems = [];
 		var fragment = document.createDocumentFragment();
 
-		for ( var i = 0; i < 1; i++ ) {
-			var elem = getItemElement();
-			fragment.appendChild( elem );
-			elems.push( elem );
-		}
+		var elem = getItemElement();
+		fragment.appendChild( elem );
+		elems.push( elem );
+		
 		// prepend elements to container
 		container.insertBefore( fragment, container.firstChild );
 		// add and lay out newly prepended elements
 
-		$('#content').masonry('prepended', elems );
+		jQuery('#content').masonry('prepended', elems );
 
 		
 	});
@@ -93,10 +92,10 @@ $(document).ready(function() {
 			return;
 		}
 		// remove clicked element
-		$('#content').masonry('remove', event.target );
+		jQuery('#content').masonry('remove', event.target );
 		
 		// layout remaining item elements
-		$('#content').masonry('layout');
+		jQuery('#content').masonry('layout');
 	});
 	
 	})();
@@ -105,15 +104,19 @@ $(document).ready(function() {
 	 * Stamp & Unstamp
 	 **/
 
+
+
 });
 
-function fetchNodes() {
-	$.get('http://54.200.98.221:5000/api/v1', function(data) {
-		return data;
-	});
-}
 
-function updateNodesOnPage() {
-	var jsonNodes = fetchNodes();
-	// update data binding to bricks/nodes
-}
+// function fetchNodes() {
+// 	jQuery.get('http://54.200.98.221:5000/api/v1', function(data) {
+// 		return data;
+// 	});
+// }
+
+// function updateNodesOnPage() {
+// 	var jsonNodes = fetchNodes();
+// 	// update data binding to bricks/nodes
+// }
+
