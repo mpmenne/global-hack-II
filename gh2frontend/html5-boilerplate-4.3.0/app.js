@@ -1,9 +1,7 @@
-console.log("app.js is loaded")
 var launchCodeTvApp = angular.module('application', []);
 
 launchCodeTvApp.controller('OntologyController', function ($scope, $http) {
   var app = this;
-  $scope.message = "yo yo yo!";
   $scope.bricks = [];
 
 
