@@ -1,8 +1,8 @@
 
-$(document).ready(function() {
+jQuery(document).ready(function() {
 
 	// Initialize Masonry
-	var msnry = $('#content');
+	var msnry = jQuery('#content');
 	msnry.masonry({
 		// Masonry options
 		columnWidth: 30,
@@ -25,18 +25,18 @@ $(document).ready(function() {
 	/*
 	 * Filter by binding event on any changes from select box
 	 **/
-	$('#grid-filter').on("change", function(){
-		group = $(this).val();
+	jQuery('#grid-filter').on("change", function(){
+		group = jQuery(this).val();
 		groupClass = "." + group;
 
 		if (group != "") {
-			$('.item').hide();
-			$(groupClass).show();
-			$('#content').masonry('layout');
+			jQuery('.item').hide();
+			jQuery(groupClass).show();
+			jQuery('#content').masonry('layout');
 		}
 		else {
-			$('.item').show();
-			$('#content').masonry('layout');
+			jQuery('.item').show();
+			jQuery('#content').masonry('layout');
 		}
 	});
 
@@ -71,7 +71,7 @@ $(document).ready(function() {
 		container.insertBefore( fragment, container.firstChild );
 		// add and lay out newly prepended elements
 
-		$('#content').masonry('prepended', elems );
+		jQuery('#content').masonry('prepended', elems );
 
 		
 	});
@@ -92,10 +92,10 @@ $(document).ready(function() {
 			return;
 		}
 		// remove clicked element
-		$('#content').masonry('remove', event.target );
+		jQuery('#content').masonry('remove', event.target );
 		
 		// layout remaining item elements
-		$('#content').masonry('layout');
+		jQuery('#content').masonry('layout');
 	});
 	
 	})();
@@ -109,14 +109,14 @@ $(document).ready(function() {
 });
 
 
-function fetchNodes() {
-	$.get('http://54.200.98.221:5000/api/v1', function(data) {
-		return data;
-	});
-}
+// function fetchNodes() {
+// 	jQuery.get('http://54.200.98.221:5000/api/v1', function(data) {
+// 		return data;
+// 	});
+// }
 
-function updateNodesOnPage() {
-	var jsonNodes = fetchNodes();
-	// update data binding to bricks/nodes
-}
+// function updateNodesOnPage() {
+// 	var jsonNodes = fetchNodes();
+// 	// update data binding to bricks/nodes
+// }
 
